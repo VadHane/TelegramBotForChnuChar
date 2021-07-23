@@ -9,7 +9,8 @@ namespace ChatBot
         
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            bot.OnMessage += MainHandler.OnMessage;
+            bot.OnCallbackQuery += MainHandler.OnCallback;
         }
     }
 }
