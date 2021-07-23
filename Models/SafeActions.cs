@@ -18,7 +18,7 @@ namespace ChatBot.Models
             catch
             {
                 Console.WriteLine($"[Error] I can`t delete message! Check log-chat!");
-                Program.bot.SafeSendMessageAsync(message.Chat, "", ParseMode.Html);
+                Program.bot.SafeSendMessageAsync(Settings.LogChat, "", ParseMode.Html);
             }
         }
 
