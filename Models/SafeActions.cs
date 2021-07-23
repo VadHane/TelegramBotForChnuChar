@@ -9,6 +9,13 @@ namespace ChatBot.Models
 {
     public static class SafeActions
     {
+        
+        
+        /// <summary>
+        /// Function for safe deleting message from chat.
+        /// </summary>
+        /// <param name="bot">Link to bot client.</param>
+        /// <param name="message">Message for deleting.</param>
         public static async void SafeDeleteMessageAsync(this TelegramBotClient bot, Message message)
         {
             try
@@ -21,7 +28,16 @@ namespace ChatBot.Models
                 Program.bot.SafeSendMessageAsync(Settings.LogChat, Text.CantDeleteMessage(message), ParseMode.Html);
             }
         }
-
+        
+        
+        /// <summary>
+        /// Function for safe sinding message into group or prived chat.
+        /// </summary>
+        /// <param name="bot">Link to bot client.</param>
+        /// <param name="chatId">Id of chat where you would like to send message.</param>
+        /// <param name="text">Text of your message.</param>
+        /// <param name="parseMode">Parse mode for your text.</param>
+        /// <param name="keyboard">Attached keyboard to message.</param>
         public static async void SafeSendMessageAsync(this TelegramBotClient bot,
             ChatId chatId, string text, ParseMode parseMode = ParseMode.Default, IReplyMarkup keyboard = null)
         {
@@ -34,5 +50,7 @@ namespace ChatBot.Models
                 Console.WriteLine($"[Error] I can`t send message! (chatId - {chatId}, message - {text});");
             }
         }
+        
+        
     }
 }

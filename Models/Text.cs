@@ -4,6 +4,8 @@ namespace ChatBot.Models
 {
     public static class Text
     {
+        public const string ForPrivedChat = "Я працюю виключно в <b>чаті студентів ЧНУ</b>!";
+
         public static string CantDeleteMessage(Message message)
         {
             return $"<b>Я не зміг видалити повідомлення! \nІнформація про повідомлення:</b>" +

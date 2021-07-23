@@ -2,8 +2,8 @@ namespace ChatBot
 {
     public static class PrivateSettings
     {
-        public static readonly string TOKEN = "";
-        
+        public const string TOKEN = "";
+
         // DataBase settings
         private const string Host = "ec2-54-74-77-126.eu-west-1.compute.amazonaws.com";
         private const int Port = 5432;
