@@ -64,7 +64,7 @@ namespace ChatBot
         /// Delete word from database.
         /// </summary>
         /// <param name="word">Word for deleting from database.</param>
-        public static async void DeleteWord(Word word)
+        public static async Task DeleteWord(Word word)
         {
             var conn = new NpgsqlConnection(PrivateSettings.ConnectionString);
             await conn.OpenAsync();
