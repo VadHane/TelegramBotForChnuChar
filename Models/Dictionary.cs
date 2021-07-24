@@ -58,7 +58,7 @@ namespace ChatBot.Models
             Words.RemoveAll(word_ => word_.Id == word.Id);
 
             Console.WriteLine($"[database] Deleted word. [word - {word.Text}];");
-            Program.bot.SafeSendMessageAsync(Settings.LogChat, Models.Text.DeleteWord(word), ParseMode.Html);
+            await Program.bot.SafeSendMessageAsync(Settings.LogChat, Models.Text.DeleteWord(word), ParseMode.Html);
         }
 
         
@@ -72,7 +72,7 @@ namespace ChatBot.Models
             
             if (Words.Exists(word_ => word_.Text == word.Text))
             {
-                Program.bot.SafeSendMessageAsync(Settings.LogChat, "Таке слово уже є в словнику!");
+                await Program.bot.SafeSendMessageAsync(Settings.LogChat, "Таке слово уже є в словнику!");
                 return;
             }
 
@@ -80,7 +80,7 @@ namespace ChatBot.Models
             Words.Add(word);
 
             Console.WriteLine($"[database] Aded new word. [word - {word.Text}];");
-            Program.bot.SafeSendMessageAsync(Settings.LogChat, Models.Text.AddWord(word), ParseMode.Html);
+            await Program.bot.SafeSendMessageAsync(Settings.LogChat, Models.Text.AddWord(word), ParseMode.Html);
         }
 
         
