@@ -21,10 +21,19 @@ namespace ChatBot.Models
         /// Default constructor for initial all members.
         /// </summary>
         /// <param name="text">Text of this word.</param>
-        public Word(string text)
+        private Word(string text)
         {
             Id = 0;
             Text = text;
+        }
+
+        /// <summary>
+        /// Implicit operator for cast string to Word
+        /// </summary>
+        /// <param name="text">Text of this word.</param>
+        public static implicit operator Word(string text)
+        {
+            return new Word(text);
         }
     }
     
