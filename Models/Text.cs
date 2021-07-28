@@ -39,5 +39,20 @@ namespace ChatBot.Models
                    $"\nПовідомлення: {message.Text}" +
                    "\n\n\n<em>Можлива причина цієї помилки - повідомлення було видалено скоріше, ніж це зміг зробити я!</em>";
         }
+
+        public static string Warn(string username, string name, int telegramId)
+        {
+            string result = "";
+            if (username.Length > 1)
+            {
+                result += $"<a href=\"https://t.me/{username}\">{name}</a> [@{username}]";
+            }
+            else
+            {
+                result += $"<a href=\"https://t.me/{telegramId}\">{name}</a> ";
+            }
+
+            return result + "буть обережнішим з висловлюваннями!";
+        }
     }
 }
