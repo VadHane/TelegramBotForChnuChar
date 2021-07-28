@@ -74,7 +74,17 @@ namespace ChatBot
         
         public static async void OnCallback(object sender, CallbackQueryEventArgs e)
         {
-            
+            string[] cmd = e.CallbackQuery.Data.Split(":");
+
+            switch (cmd[0])
+            {
+                case "Admin":
+                    Admin.ParseCommandFromKeyboard(cmd);
+                    break;
+                case "Action":
+                    await ActionsHandler.ParseCommand(cmd, e.CallbackQuery.Message);
+                    break;
+            }
         }
     }
 }
