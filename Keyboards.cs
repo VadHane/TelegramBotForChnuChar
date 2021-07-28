@@ -20,15 +20,18 @@ namespace ChatBot
                 new []
                 {
                     InlineKeyboardButton.WithCallbackData("Warn", 
-                        $"Admin:Warn:{message.From.Username}:{message.From.FirstName} {message.From.LastName}"), 
+                        $"Admin:Warn:{message.From.Username}:{message.From.FirstName} {message.From.LastName}" +
+                        $":{message.From.Id}"), 
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Mute", $"Admin:Mute:{message.From.Id}"),
+                    InlineKeyboardButton.WithCallbackData("Mute", $"Admin:Mute:{message.From.Id}:" +
+                                                                  $"{message.From.FirstName} {message.From.LastName}"),
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Kick", $"Admin:Kick:{message.From.Id}"),
+                    InlineKeyboardButton.WithCallbackData("Kick", $"Admin:Kick:{message.From.Id}:" +
+                                                                  $"{message.From.FirstName} {message.From.LastName}"),
                 }
             });
         }
@@ -43,7 +46,7 @@ namespace ChatBot
                 },
                 new[]
                 {
-                    InlineKeyboardButton.WithCallbackData("Відмінити", $"Action:Cansel:{actionId}"),
+                    InlineKeyboardButton.WithCallbackData("Відмінити", $"Action:Cancel:{actionId}"),
                 }
             });
         }
