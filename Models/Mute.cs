@@ -18,6 +18,14 @@ namespace ChatBot.Models
             Name = name;
             TelegramId = telegramId;
         }
+
+        public Mute(string name, int telegramId, int time)
+        {
+            Id = GetActionId();
+            Name = name;
+            TelegramId = telegramId;
+            Time = time;
+        }
         
         /// <summary>
         /// Name of student.
@@ -43,9 +51,27 @@ namespace ChatBot.Models
 
         public override async Task DoAction()
         {
+            if (Time != default)
+            {
+                if (Program.bot.SafeEditUserPermissionsAsync(TelegramId, false, Time).Result)
+                {
+                    await Program.bot.SafeSendMessageAsync(Settings.LogChat,
+                        $"Ви успішно обмежили можливість надсилання повідомлень для {Name} на {Time} хвилин");
+                    await Program.bot.SafeSendMessageAsync(Settings.MainChat,
+                        $"{Name}, давай пограємо в мовчанку? \nПротримаєшся {Time} хвилин?");
+                    DeleteAction();
+                }
+                else
+                {
+                    await Program.bot.SafeSendMessageAsync(Settings.LogChat,
+                        $"Я не зміг обмежити цього користувача!");
+                }
+                return;
+            }
+            
+            
             int step = 1;
             var wait = new ManualResetEvent(false);
-            bool flag = false;
 
             EventHandler<MessageEventArgs> func = async (object sender, MessageEventArgs e) =>
             {
@@ -56,13 +82,13 @@ namespace ChatBot.Models
                     step++;
                     if (int.TryParse(e.Message.Text, out Time))
                     {
-                        if (Program.bot.SafeEditUserPermissionsAsync(TelegramId, false).Result)
+                        if (Program.bot.SafeEditUserPermissionsAsync(TelegramId, false, Time).Result)
                         {
                             await Program.bot.SafeSendMessageAsync(Settings.LogChat,
                                 $"Ви успішно обмежили можливість надсилання повідомлень для {Name} на {Time} хвилин");
                             await Program.bot.SafeSendMessageAsync(Settings.MainChat,
                                 $"{Name}, давай пограємо в мовчанку? \nПротримаєшся {Time} хвилин?");
-                            flag = true;
+                            DeleteAction();
                         }
                         else
                         {
@@ -84,15 +110,6 @@ namespace ChatBot.Models
             Program.bot.OnMessage += func;
             wait.WaitOne();
             Program.bot.OnMessage -= func;
-
-            if (flag)
-            {
-                Thread.Sleep(Time * 1000);
-                await Program.bot.SafeEditUserPermissionsAsync(TelegramId, true);
-                await Program.bot.SafeSendMessageAsync(Settings.MainChat, $"{Name}, твоя мовчатка закінчилась!");
-            }
-            
-            DeleteAction();
         }
     }
 }

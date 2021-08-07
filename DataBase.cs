@@ -42,7 +42,7 @@ namespace ChatBot
             var conn = new NpgsqlConnection(PrivateSettings.ConnectionString);
             await conn.OpenAsync();
 
-            string script = $"INSERT INTO words VALUE text='{word.Text}';";
+            string script = $"INSERT INTO words(text) VALUES ('{word.Text}');";
             var command = new NpgsqlCommand(script, conn);
             await command.ExecuteNonQueryAsync();
 

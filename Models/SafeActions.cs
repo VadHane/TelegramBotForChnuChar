@@ -75,11 +75,19 @@ namespace ChatBot.Models
         /// <param name="bot">Link to bot client.</param>
         /// <param name="userId">Telegram unique id for this student.</param>
         /// <param name="canSendMessage">Permission for sending message.</param>
-        public static async Task<bool> SafeEditUserPermissionsAsync(this TelegramBotClient bot, int userId, bool canSendMessage)
+        /// <param name="minute">Numbers of minutes for muting of user.</param>
+        public static async Task<bool> SafeEditUserPermissionsAsync(this TelegramBotClient bot, int userId,
+            bool canSendMessage, int minute)
         {
             try
             {
-                await Program.bot.PromoteChatMemberAsync(Settings.MainChat, userId, canPostMessages: canSendMessage);
+                await Program.bot.RestrictChatMemberAsync(Settings.MainChat, userId,
+                    new ChatPermissions()
+                    {
+                        CanSendMessages = canSendMessage,
+                        CanSendMediaMessages = canSendMessage,
+                        CanSendOtherMessages = canSendMessage
+                    }, DateTime.Now.AddMinutes(minute));
                 return true;
             }
             catch 
