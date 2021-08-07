@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot.Types.Enums;
 
@@ -49,7 +50,9 @@ namespace ChatBot.Models
         /// <param name="word">Word for deleting.</param>
         public static async Task Delete(Word word)
         {
-            if (!Words.Exists(word_ => word_.Id == word.Id))
+            word = Words.FirstOrDefault(word_ => word_.Text == word.Text);
+
+            if (word.Text == null)
             {
                 return;
             }
@@ -80,7 +83,7 @@ namespace ChatBot.Models
             Words.Add(word);
 
             Console.WriteLine($"[database] Aded new word. [word - {word.Text}];");
-            await Program.bot.SafeSendMessageAsync(Settings.LogChat, Models.Text.AddWord(word), ParseMode.Html);
+            await Program.bot.SafeSendMessageAsync(Settings.LogChat, Text.AddWord(word), ParseMode.Html);
         }
 
         
